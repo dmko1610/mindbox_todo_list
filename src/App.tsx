@@ -44,12 +44,12 @@ export default function App() {
       : todos.filter((todo) => todo.completed);
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
+    <div className="flex flex-col w-screen items-center min-h-screen bg-gray-100 p-4">
       <h1 className="text-6xl text-red-200 font-light">todos</h1>
       <Input addTodo={addTodo} />
-      <ul className="w-full max-w-lg drop-shadow-xl">
+      <ul className="w-full max-w-xl drop-shadow-xl">
         {filteredTodos.map((todo) => (
-          <ListElement todo={todo} toggleTodo={toggleTodo} />
+          <ListElement key={todo.id} todo={todo} toggleTodo={toggleTodo} />
         ))}
         <div className="flex bg-white justify-between items-center space-x-4 p-4 text-gray-500 text-sm">
           <span>

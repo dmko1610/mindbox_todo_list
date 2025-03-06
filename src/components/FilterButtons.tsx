@@ -11,8 +11,9 @@ export default function FilterButtons({
 }: FilterButtonsProps) {
   return (
     <>
-      <div className="flex space-x-2">
+      <div className="flex justify-evenly">
         <button
+          style={{ backgroundColor: "white" }}
           className={`p-2 ${
             filter === "all" ? "text-blue-500" : "text-gray-500"
           }`}
@@ -21,14 +22,16 @@ export default function FilterButtons({
           All
         </button>
         <button
+          style={{ backgroundColor: "white" }}
           className={`p-2 ${
             filter === "active" ? "text-blue-500" : "text-gray-500"
           }`}
-          onClick={() => setFilter("active")}
+        onClick={() => setFilter("active")}
         >
           Active
         </button>
         <button
+          style={{ backgroundColor: "white" }}
           className={`p-2 ${
             filter === "completed" ? "text-blue-500" : "text-gray-500"
           }`}
@@ -37,7 +40,11 @@ export default function FilterButtons({
           Completed
         </button>
       </div>
-      <button className="p-2 ml-6 bg-red-500" onClick={clearCompleted}>
+      <button
+        style={{ backgroundColor: "white" }}
+        className="p-2 ml-6 bg-red-500"
+        onClick={clearCompleted}
+      >
         Clear completed
       </button>
     </>
