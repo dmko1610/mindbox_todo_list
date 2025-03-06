@@ -43,4 +43,40 @@ describe("App", () => {
       "line-through text-gray-400"
     );
   });
+
+  it("adds a new task", () => {
+    render(<App />);
+
+    const inputElement = screen.getByPlaceholderText(/What needs to be done?/i);
+    fireEvent.change(inputElement, { target: { value: "New Task" } });
+    fireEvent.keyDown(inputElement, { key: "Enter" });
+  
+    expect(screen.getByText("New Task")).toBeInTheDocument();
+  });
+
+  it("filters tasks by active", () => {
+    render(<App />);
+    fireEvent.click(screen.getByText("Active"));
+
+    expect(screen.queryByText("First task")).toBeInTheDocument();
+    expect(screen.queryByText("Second task")).toBeInTheDocument();
+    fireEvent.click(screen.getAllByRole("button")[0]);
+    fireEvent.click(screen.getByText("Active"));
+
+    expect(screen.queryByText("First task")).not.toBeInTheDocument();
+  });
+
+  it("clears completed tasks", () => {
+    render(<App />);
+    expect(screen.queryByText("First task")).toBeInTheDocument();
+    expect(screen.queryByText("Second task")).toBeInTheDocument();
+
+    fireEvent.click(screen.getAllByRole("button")[0]);
+    fireEvent.click(screen.getByText("Clear completed"));
+
+
+    const taskList = screen.queryAllByRole("listitem");
+    expect(taskList.length).toBe(1);
+    expect(screen.queryByText("First task")).not.toBeInTheDocument();
+  });
 });
