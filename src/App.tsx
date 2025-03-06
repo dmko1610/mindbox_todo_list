@@ -1,7 +1,10 @@
 import { useState } from "react";
 import "./App.css";
+import FilterButtons from "./components/FilterButtons";
+import Input from "./components/Input";
+import ListElement from "./components/ListElement";
 
-type Todo = {
+export type Todo = {
   id: number;
   text: string;
   completed: boolean;
@@ -43,73 +46,20 @@ export default function App() {
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
       <h1 className="text-6xl text-red-200 font-light">todos</h1>
-      <div className="bg-white drop-shadow-sm w-full max-w-lg mt-4">
-        <input
-          className="w-full p-4 text-gray-400 italic border-b border-gray-300 outline-none"
-          placeholder="What needs to be done?"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              addTodo((e.target as HTMLInputElement).value);
-              (e.target as HTMLInputElement).value = "";
-            }
-          }}
-        />
-      </div>
+      <Input addTodo={addTodo} />
       <ul className="w-full max-w-lg drop-shadow-xl">
         {filteredTodos.map((todo) => (
-          <li className="flex bg-white items-center p-4 border-b border-gray-300 last:border-none">
-            <button
-              className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                todo.completed
-                  ? "border-2 border-green-500 text-green-500"
-                  : "border-2 border-gray-400 text-transparent"
-              }`}
-              onClick={() => toggleTodo(todo.id)}
-            >
-              {todo.completed && <span className="text-xl">&#10003;</span>}
-            </button>
-            <span
-              className={`ml-4 text-lg ${
-                todo.completed ? "line-through text-gray-400" : "text-black"
-              }`}
-            >
-              {todo.text}
-            </span>
-          </li>
+          <ListElement todo={todo} toggleTodo={toggleTodo} />
         ))}
         <div className="flex bg-white justify-between items-center space-x-4 p-4 text-gray-500 text-sm">
           <span>
             {todos.filter((todo) => !todo.completed).length} items left
           </span>
-          <div className="flex space-x-2">
-            <button
-              className={`p-2 ${
-                filter === "all" ? "text-blue-500" : "text-gray-500"
-              }`}
-              onClick={() => setFilter("all")}
-            >
-              All
-            </button>
-            <button
-              className={`p-2 ${
-                filter === "active" ? "text-blue-500" : "text-gray-500"
-              }`}
-              onClick={() => setFilter("active")}
-            >
-              Active
-            </button>
-            <button
-              className={`p-2 ${
-                filter === "completed" ? "text-blue-500" : "text-gray-500"
-              }`}
-              onClick={() => setFilter("completed")}
-            >
-              Completed
-            </button>
-          </div>
-          <button className="p-2 ml-6 bg-red-500" onClick={clearCompleted}>
-            Clear completed
-          </button>
+          <FilterButtons
+            filter={filter}
+            setFilter={setFilter}
+            clearCompleted={clearCompleted}
+          />
         </div>
       </ul>
     </div>
